@@ -1,5 +1,5 @@
 import csv
-
+from numbers import Number
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
 
@@ -85,13 +85,43 @@ for c in cities:
 
 # TODO Get latitude and longitude values from the user
 
+user_input1 = input(
+    "Please enter a first point latitude and longitude: ").strip().split(" ")
+user_input2 = input(
+    "Please enter a second point latitude and longitude: ").strip().split(" ")
+
+print('user input 1', user_input1)
+
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     # within will hold the cities that fall within the specified region
-    within = []
 
     # TODO Ensure that the lat and lon valuse are all floats
     # Go through each city and check to see if it falls within
     # the specified coordinates.
 
+    try:
+        maxLat = max(float(lat1), float(lat2))
+        minLat = min(float(lat1), float(lat2))
+        maxLon = max(float(lon1), float(lon2))
+        minLon = min(float(lon1), float(lon2))
+
+        print(maxLat, minLat, maxLon, minLon)
+
+        within = []
+
+        for city in cities:
+            if city.lat <= maxLat and city.lat >= minLat and city.lon <= maxLon and city.lon >= minLon:
+                within.append(city)
+    except:
+        return "Please two valid numbers for latitude and longitude"
+
     return within
+
+
+contained_cities = cityreader_stretch(
+    user_input1[0], user_input1[1], user_input2[0], user_input2[1], cities
+)
+
+for city in contained_cities:
+    print(f"{city.name}: ({city.lat},{city.lon})")
